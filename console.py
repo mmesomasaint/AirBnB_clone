@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-
+"""Class for the entry point of the command interpreter"""
 
 import cmd
 
 
 class HBnBCommand(cmd.Cmd):
+    """The Command Class"""
     prompt = '(hbnb)'
     file = None
 
