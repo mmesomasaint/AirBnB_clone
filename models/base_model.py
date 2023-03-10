@@ -5,8 +5,8 @@
 
 
 from datetime import datetime
-import models
 import uuid
+import models
 
 
 class BaseModel:
@@ -18,18 +18,25 @@ class BaseModel:
         """
             Public instance attributes are initialized
         """
-        
-        if kwargs:
-            for key, value in kwargs.items():
+        if (kwargs):
+            for key, value in enumerate(kwargs):
                 if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                    value = datetime.strptime(value, "%Y-%m-%dT%h:%M:%S.%f")
                 if key != '__class__':
-                    setattr(self, key, value)
+                    self.__setattr__(key, value)
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.today()
-            self.updated_at = datetime.today()
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
+
+    def save(self):
+        """
+            Updated the updated_at attribute with new.
+        """
+
+        self.updated_at = datetime.now()
+        models.storage.save()
 
     def __str__(self):
         """
@@ -37,18 +44,10 @@ class BaseModel:
         """
 
         return ("[BaseModel] ({}) {}".format(self.id, self.__dict__))
-
-    def save(self):
-        """
-            update the public instance attribute with the current datetime
-        """
-
-        models.storage.save()
-        self.updated_at = datetime.today()
-
+    
     def to_dict(self):
         """
-            Return the dictionary representation of an object
+            gives a dict of object
         """
 
         dictionary = dict(self.__dict__)
