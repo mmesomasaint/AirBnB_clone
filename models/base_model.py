@@ -28,15 +28,14 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
-            models.storage.new(self)
+            
 
     def save(self):
         """
-            Updated the updated_at attribute with new.
+            Update the updated_at attribute with new.
         """
 
-        self.updated_at = datetime.now()
-        models.storage.save()
+        self.updated_at = datetime.today()
 
     def __str__(self):
         """
