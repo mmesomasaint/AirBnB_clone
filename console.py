@@ -22,7 +22,10 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-        'Create a new instance of Base Model'
+        """
+          Creates a new instance of BaseModel,
+          saves it (to the JSON file) and prints the id.
+        """
         if len(arg) == 0:
             print("** class name missing **")
         elif arg not in HBNBCommand.__classes:
@@ -35,7 +38,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-          Display the string representation of a class instance of a given id.
+          Prints the string representation of an instance
+          based on the class name and id.
         """
         objdict = models.storage.all()
         arg1 = arg.split()
@@ -49,6 +53,25 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
         else:
             print(objdict["{}.{}".format(arg1[0], arg1[1])])
+
+    def do_destroy(self, arg):
+        """
+          Deletes an instance based on the class name and id,
+          (save the change into the JSON file).
+        """
+        objdict = models.storage.all()
+        arg1 = arg.split()
+        if len(arg1) == 0:
+            print("** class name missing **")
+        elif arg1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(arg1) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+            print("** no instance found **")
+        else:
+            del objdict["{}.{}".format(arg1[0], arg1[1])]
+            models.storage.save()
 
 
 if __name__ == '__main__':
