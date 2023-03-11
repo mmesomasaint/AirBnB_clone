@@ -42,17 +42,17 @@ class HBNBCommand(cmd.Cmd):
           based on the class name and id.
         """
         objdict = models.storage.all()
-        arg1 = arg.split()
-        if len(arg1) == 0:
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
-        elif arg1[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(arg1) == 1:
+        elif len(args) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+        elif "{}.{}".format(args[0], args[1]) not in objdict:
             print("** no instance found **")
         else:
-            print(objdict["{}.{}".format(arg1[0], arg1[1])])
+            print(objdict["{}.{}".format(args[0], args[1])])
 
     def do_destroy(self, arg):
         """
@@ -60,17 +60,17 @@ class HBNBCommand(cmd.Cmd):
           (save the change into the JSON file).
         """
         objdict = models.storage.all()
-        arg1 = arg.split()
-        if len(arg1) == 0:
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
-        elif arg1[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(arg1) == 1:
+        elif len(args) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+        elif "{}.{}".format(args[0], args[1]) not in objdict:
             print("** no instance found **")
         else:
-            del objdict["{}.{}".format(arg1[0], arg1[1])]
+            del objdict["{}.{}".format(args[0], args[1])]
             models.storage.save()
 
     def do_all(self, arg):
@@ -79,16 +79,16 @@ class HBNBCommand(cmd.Cmd):
           based or not on the class name.
         """
         objdict = models.storage.all()
-        arg1 = arg.split()
-        if len(arg1) == 0:
+        args = arg.split()
+        if len(args) == 0:
             print(["{}".format(value) for value in objdict.values()])
-        elif arg1[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(arg1) == 1:
+        elif len(args) == 1:
             all = []
             for key, value in objdict.items():
-                key1 = key.split(".")
-                if key1[0] == arg1[0]:
+                keys = key.split(".")
+                if keys[0] == args[0]:
                     all.append("{}".format(value))
             print(all)
 
@@ -98,22 +98,22 @@ class HBNBCommand(cmd.Cmd):
           by adding or updating attribute (save the change into the JSON file).
         """
         objdict = models.storage.all()
-        arg1 = arg.split()
-        if len(arg1) == 0:
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
-        elif arg1[0] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(arg1) == 1:
+        elif len(args) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+        elif "{}.{}".format(args[0], args[1]) not in objdict:
             print("** no instance found **")
-        elif len(arg1) == 2:
+        elif len(args) == 2:
             print("** attribute name missing **")
-        elif len(arg1) == 3:
+        elif len(args) == 3:
             print("** value missing **")
         else:
-            obj = objdict["{}.{}".format(arg1[0], arg1[1])]
-            obj.__dict__[arg1[2]] = arg1[3]
+            obj = objdict["{}.{}".format(args[0], args[1])]
+            obj.__dict__[args[2]] = args[3]
             models.storage.save()
 
 
