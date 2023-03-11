@@ -92,6 +92,31 @@ class HBNBCommand(cmd.Cmd):
                     all.append("{}".format(value))
             print(all)
 
+    def do_update(self, arg):
+        """
+          Updates an instance based on the class name and id
+          by adding or updating attribute (save the change into the JSON file).
+        """
+        objdict = models.storage.all()
+        arg1 = arg.split()
+        if len(arg1) == 0:
+            print("** class name missing **")
+        elif arg1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(arg1) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+            print("** no instance found **")
+        elif len(arg1) == 2:
+            print("** attribute name missing **")
+        elif len(arg1) == 3:
+            print("** value missing **")
+        else:
+            obj = objdict["{}.{}".format(arg1[0], arg1[1])]
+            obj.__dict__[arg1[2]] = arg1[3]
+            models.storage.save()
+
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
