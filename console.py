@@ -2,8 +2,8 @@
 """Class for the entry point of the command interpreter"""
 
 import cmd
-import models
 from models.base_model import BaseModel
+import models
 
 
 class HBNBCommand(cmd.Cmd):
@@ -28,8 +28,27 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
-            print(eval(arg)().id)
+            obj = eval(arg)()
+            models.storage.new(obj)
             models.storage.save()
+            print(obj.id)
+
+    def do_show(self, arg):
+        """
+          Display the string representation of a class instance of a given id.
+        """
+        objdict = models.storage.all()
+        arg1 = arg.split()
+        if len(arg1) == 0:
+            print("** class name missing **")
+        elif arg1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(arg1) == 1:
+            print("** instance id missing **")
+        elif "{}.{}".format(arg1[0], arg1[1]) not in objdict:
+            print("** no instance found **")
+        else:
+            print(objdict["{}.{}".format(arg1[0], arg1[1])])
 
 
 if __name__ == '__main__':
