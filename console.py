@@ -73,6 +73,25 @@ class HBNBCommand(cmd.Cmd):
             del objdict["{}.{}".format(arg1[0], arg1[1])]
             models.storage.save()
 
+    def do_all(self, arg):
+        """
+          Prints all string representation of all instances
+          based or not on the class name.
+        """
+        objdict = models.storage.all()
+        arg1 = arg.split()
+        if len(arg1) == 0:
+            print(["{}".format(value) for value in objdict.values()])
+        elif arg1[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        elif len(arg1) == 1:
+            all = []
+            for key, value in objdict.items():
+                key1 = key.split(".")
+                if key1[0] == arg1[0]:
+                    all.append("{}".format(value))
+            print(all)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
