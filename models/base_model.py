@@ -19,7 +19,7 @@ class BaseModel:
             Public instance attributes are initialized
         """
         if (kwargs):
-            for key, value in enumerate(kwargs):
+            for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%h:%M:%S.%f")
                 if key != '__class__':
