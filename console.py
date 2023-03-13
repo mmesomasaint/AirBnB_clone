@@ -3,6 +3,12 @@
 
 import cmd
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import models
 
 
@@ -10,7 +16,13 @@ class HBNBCommand(cmd.Cmd):
     """The Command Class"""
     prompt = '(hbnb)'
     __classes = {
-        "BaseModel"
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Amenity",
+        "Place",
+        "Review"
     }
 
     def do_quit(self, arg):
@@ -81,15 +93,15 @@ class HBNBCommand(cmd.Cmd):
         objdict = models.storage.all()
         args = arg.split()
         if len(args) == 0:
-            print(["{}".format(value) for value in objdict.values()])
+            print([obj.__str__() for obj in objdict.values()])
         elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(args) == 1:
             all = []
-            for key, value in objdict.items():
+            for key, obj in objdict.items():
                 keys = key.split(".")
                 if keys[0] == args[0]:
-                    all.append("{}".format(value))
+                    all.append(obj.__str__())
             print(all)
 
     def do_update(self, arg):
@@ -115,7 +127,6 @@ class HBNBCommand(cmd.Cmd):
             obj = objdict["{}.{}".format(args[0], args[1])]
             obj.__dict__[args[2]] = args[3]
             models.storage.save()
-
 
 
 if __name__ == '__main__':

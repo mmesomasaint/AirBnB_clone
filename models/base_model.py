@@ -44,7 +44,8 @@ class BaseModel:
             String representation of the object
         """
 
-        return ("[BaseModel] ({}) {}".format(self.id, self.__dict__))
+        objname = self.__class__.__name__
+        return ("[{}] ({}) {}".format(objname, self.id, self.__dict__))
     
     
     def to_dict(self):
